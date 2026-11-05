@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FWMS - HTML + CSS</title>
+<style>
+:root{--g:#2e7d32;--gl:#e8f5e9;--bg:#f7f9f7;--tx:#1b2a1b;--bd:#cfdccf;--card:#fff}
+@media(prefers-color-scheme:dark){:root{--g:#66bb6a;--gl:#1d2b1e;--bg:#121a12;--tx:#e6efe6;--bd:#2f432f;--card:#182218}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
+header{background:var(--g);color:#fff;padding:1rem 1.25rem}
+header h1{margin:0;font-size:1.5rem}
+header p{margin:.25rem 0 .75rem;opacity:.9}
+nav{display:flex;flex-wrap:wrap;gap:.5rem}
+nav a{color:#fff;text-decoration:none;padding:.35rem .8rem;border:1px solid rgba(255,255,255,.6);border-radius:999px;font-size:.9rem}
+nav a:hover,nav a.active{background:#fff;color:#1b5e20}
+main{max-width:900px;margin:1.25rem auto;padding:0 1rem}
+section{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+h2{margin-top:0;color:var(--g)}
+form{display:grid;gap:.75rem;margin-bottom:1rem}
+label{display:grid;gap:.25rem;font-weight:600;font-size:.9rem}
+input,select,textarea{font:inherit;padding:.5rem;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+input[type=checkbox]{width:auto;margin-right:.4rem}
+fieldset{border:1px solid var(--bd);border-radius:10px;display:grid;gap:.75rem}
+button{font:inherit;background:var(--g);color:#fff;border:0;border-radius:8px;padding:.5rem 1rem;cursor:pointer}
+button:hover{opacity:.88}
+.tbl,table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{background:var(--gl)}
+footer{text-align:center;font-size:.85rem;padding:1rem;opacity:.75}
+@media(min-width:600px){form:not(#lookupForm){grid-template-columns:1fr 1fr}form button,form textarea,fieldset legend{grid-column:1/-1}label:has(textarea),label:has(#pDecl){grid-column:1/-1}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Food Wastage Management System (FWMS)</h1>
+  <p>Connecting donors of surplus food with NGOs and volunteers before the food goes to waste</p>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#register">Register / Login</a>
+    <a href="#post">Post Donation</a>
+    <a href="#ngo">NGO Feed</a>
+    <a href="#volunteer">Volunteer</a>
+    <a href="#admin">Admin</a>
+  </nav>
+</header>
+<main>
+<section id="home">
+  <h2>Track a donation</h2>
+  <form id="lookupForm">
+    <label for="lookupId">Donation ID</label>
+    <input id="lookupId" placeholder="DON-2026-000101" required>
+    <button type="submit">Track</button>
+  </form>
+  <p id="lookupResult"></p>
+  <h3>Food categories and safe windows</h3>
+  <table>
+    <thead><tr><th>Category</th><th>Safe window (hours)</th></tr></thead>
+    <tbody>
+      <tr><td>Cooked Meals</td><td>4</td></tr>
+      <tr><td>Event Leftovers</td><td>3</td></tr>
+      <tr><td>Bakery and Snacks</td><td>24</td></tr>
+      <tr><td>Fruits and Vegetables</td><td>48</td></tr>
+      <tr><td>Packaged and Dry Food</td><td>72</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="register">
+  <h2>Register / Login</h2>
+  <form>
+    <fieldset>
+      <legend>Register</legend>
+      <label>Role
+        <select><option>Donor</option><option>NGO</option><option>Volunteer</option></select>
+      </label>
+      <label>Name <input required></label>
+      <label>Mobile <input type="tel" required></label>
+      <label>Email <input type="email" required></label>
+      <label>Area <input required></label>
+      <label>Password <input type="password" required></label>
+      <button type="submit">Register and send OTP</button>
+    </fieldset>
+  </form>
+  <form>
+    <fieldset>
+      <legend>Login</legend>
+      <label>Mobile or email <input required></label>
+      <label>Password <input type="password" required></label>
+      <button type="submit">Log in</button>
+    </fieldset>
+  </form>
+</section>
+
+<section id="post">
+  <h2>Post surplus food (Donor)</h2>
+  <form id="postForm">
+    <label>Food category
+      <select id="pCat">
+        <option>Cooked Meals</option><option>Event Leftovers</option>
+        <option>Bakery and Snacks</option><option>Fruits and Vegetables</option>
+        <option>Packaged and Dry Food</option>
+      </select>
+    </label>
+    <label>Description (min 10 characters) <textarea id="pDesc" rows="3" required></textarea></label>
+    <label>Quantity <input id="pQty" type="number" min="1" max="5000" required></label>
+    <label>Unit <select><option>Servings</option><option>Kg</option></select></label>
+    <label>Prepared at <input id="pTime" type="datetime-local" required></label>
+    <label>Area <input id="pArea" required></label>
+    <label>Landmark <input id="pLand"></label>
+    <label>Photos (up to 3, 5 MB each) <input type="file" accept="image/png,image/jpeg" multiple></label>
+    <label><input id="pDecl" type="checkbox"> Food is fresh, covered and not leftover from plates</label>
+    <button type="submit">Post donation</button>
+  </form>
+  <p id="postMsg"></p>
+</section>
+
+<section id="ngo">
+  <h2>Available donations (NGO)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Category</th><th>Servings</th><th>Area</th><th>Status</th><th>Expires in</th><th>Action</th></tr></thead>
+    <tbody id="ngoBody">
+      <tr><td>DON-2026-000101</td><td>Cooked Meals</td><td>40</td><td>Chennai Central</td><td>Posted</td><td>3h</td><td><button>Accept</button></td></tr>
+      <tr><td>DON-2026-000102</td><td>Bakery and Snacks</td><td>25</td><td>Mylapore</td><td>Posted</td><td>20h</td><td><button>Accept</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="volunteer">
+  <h2>Pickup work list (Volunteer)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Category</th><th>Area</th><th>Status</th><th>Expires in</th><th>Action</th></tr></thead>
+    <tbody id="volBody">
+      <tr><td>DON-2026-000103</td><td>Event Leftovers</td><td>T. Nagar</td><td>Accepted</td><td>2h</td><td><button>Picked Up</button></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="admin">
+  <h2>Admin dashboard</h2>
+  <table>
+    <thead><tr><th>Status</th><th>Donations</th></tr></thead>
+    <tbody id="dashBody">
+      <tr><td>Posted</td><td>2</td></tr>
+      <tr><td>Accepted</td><td>1</td></tr>
+      <tr><td>Picked Up</td><td>0</td></tr>
+      <tr><td>Delivered</td><td>0</td></tr>
+      <tr><td>Expired</td><td>0</td></tr>
+    </tbody>
+  </table>
+  <p>Rescue rate = delivered / posted &times; 100%</p>
+</section>
+</main>
+<footer><p>R. Tarun | 111726115049 | ECE (VLSI), RMK Engineering College</p></footer>
+</body>
+</html>
